@@ -9,13 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.3.0",
+    "@ducanh2912/next-pwa": "^10.2.9",
+    "@prisma/client": "^6.12.0",
+    "grommet": "^2.47.0",
+    "grommet-icons": "^4.14.0",
+    "next": "15.4.2",
     "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.4.2"
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
     "eslint": "^9",
     "eslint-config-next": "15.4.2",
-    "@eslint/eslintrc": "^3"
+    "prisma": "^6.12.0"
   }
 }

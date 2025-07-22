@@ -1,95 +1,63 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+
+import { useAuth0 } from '@auth0/auth0-react';
+import { Box, Button, Heading, Text } from 'grommet';
+import Link from 'next/link';
+import { useEffect } from 'react';
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const { user, isLoading, loginWithRedirect, logout } = useAuth0();
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+  // This useEffect will run once to sync the user to your database
+  useEffect(() => {
+    if (user) {
+      fetch('/api/auth/sync-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user }),
+      });
+    }
+  }, [user]);
+
+  if (isLoading) {
+    return <Box pad="large"><Text>Loading...</Text></Box>;
+  }
+
+  if (user) {
+    // Read the role from the user object.
+    // Auth0 Actions adds it as a namespaced claim.
+    const userRole = user['http://localhost:3000/role'];
+    console.log(userRole)
+
+    return (
+      <Box pad="large" gap="medium" align="center">
+        <Heading>Welcome, {user.nickname}!</Heading>
+
+        {userRole === 'MANAGER' && (
+          <Link href="/manager"><Button label="Go to Manager Page" /></Link>
+        )}
+
+        {/* If the user is a CARE_WORKER, show the care worker link */}
+        {userRole === 'CARE_WORKER' && (
+          <Link href="/care-worker"><Button label="Go to Care Worker Page" /></Link>
+        )}
+        {/* --- END LOGIC --- */}
+
+        <Button
+          label="Logout"
+          onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+        />
+      </Box>
+    );
+  }
+
+  return (
+    <Box fill align="center" justify="center">
+      <Heading>Welcome to Lief Time Tracker</Heading>
+      <Button label="Login" onClick={() => loginWithRedirect()} />
+    </Box>
   );
 }
