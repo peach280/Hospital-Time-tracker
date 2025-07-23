@@ -49,7 +49,6 @@ This is a **Progressive Web App (PWA)** built with **Next.js**, **Prisma**, and 
   /manager
     ├─ page.js                 # Manager dashboard (entry point)
     ├─ locationdisplay.js      # Displays clock-in/out data and location
-    └─ page.module.css         # Styles for the manager dashboard
 
   ├─ Auth0Provider.js          # Auth0 wrapper for global access
   ├─ layout.js                 # Global layout
