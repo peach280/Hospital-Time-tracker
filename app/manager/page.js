@@ -8,13 +8,13 @@ import LocationDisplay from './locationdisplay';
 
 // Column definitions for the tables
 const clockedInColumns = [
-  { property: 'name', header: <Text>Name</Text>, render: (datum) => datum.user.name },
+  { property: 'name', header: <Text>Name</Text>, render: (datum) => datum.user.nickname },
   { property: 'clockInTime', header: 'Clock In Time', render: (datum) => new Date(datum.clockInTime).toLocaleTimeString() },
   { property: 'clockInNote', header: 'Note' },
 ];
 
 const historyColumns = [
-    { property: 'name', header: <Text>Name</Text>, render: (datum) => datum.user.name },
+    { property: 'name', header: <Text>Name</Text>, render: (datum) => datum.user.nickname },
     { property: 'clockInTime', header: 'Clocked In', render: (datum) => new Date(datum.clockInTime).toLocaleString() },
     { 
       property: 'clockInLocation', 
