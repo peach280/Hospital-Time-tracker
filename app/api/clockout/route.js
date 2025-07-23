@@ -8,7 +8,6 @@ export async function POST(request) {
   const { userId, lat, lng, note } = body;
   const now = new Date();
 
-  // Find the last shift for this user that hasn't been clocked out yet
   const activeShift = await prisma.shift.findFirst({
     where: {
       userId: userId,

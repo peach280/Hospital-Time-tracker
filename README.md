@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🕒 Care Worker Shift Tracker (PWA)
 
-## Getting Started
+## 🧾 Overview
 
-First, run the development server:
+This is a **Progressive Web App (PWA)** built with **Next.js**, **Prisma**, and **Auth0**, designed to help care workers track their shifts via clock in/out actions. It includes **location-based access control** and **push notifications**, and is installable on mobile/desktop for a native-like experience.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✅ Features Attempted
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- ✅ **Clock In/Out functionality**  
+  Care workers can clock in or out, and their location is logged along with an optional note.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- ✅ **Authentication with Auth0**  
+  Login/logout integrated using Auth0’s universal login.
 
-## Learn More
+- ✅ **Progressive Web App (PWA)**  
+  The app is installable, works offline (static assets), and runs like a native app.
 
-To learn more about Next.js, take a look at the following resources:
+- ✅ **Geofenced Perimeter Check**  
+  A location check ensures clock in is allowed only when inside the manager-defined radius.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 Folder Structure
 
-## Deploy on Vercel
+/app
+  /api
+    /auth/sync-user
+      └─ route.js              # Sync user data post-authentication
+    /clockin
+      └─ route.js              # Handles clock-in requests
+    /clockout
+      └─ route.js              # Handles clock-out requests
+    /geocode
+      └─ route.js              # Converts coordinates to address
+    /location
+      └─ route.js              # Store or get manager's base location
+    /perimeter
+      └─ route.js              # Store or get perimeter radius
+    /perimeter-check
+      └─ route.js              # Verifies if location is within perimeter
+    /shifts
+      └─ route.js              # Retrieves all shift records
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  /care-worker
+    └─ page.js                 # UI for care workers to clock in/out
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+  /manager
+    ├─ page.js                 # Manager dashboard (entry point)
+    ├─ locationdisplay.js      # Displays clock-in/out data and location
+    └─ page.module.css         # Styles for the manager dashboard
+
+  ├─ Auth0Provider.js          # Auth0 wrapper for global access
+  ├─ layout.js                 # Global layout
+  ├─ page.js                   # App entry
+  ├─ globals.css               # Global styles
+  ├─ favicon.ico               # App icon
+
+/prisma
+  ├─ schema.prisma             # Prisma data models
+  └─ dev.db                    # SQLite database (local only)
+
+/public
+  └─ (static assets)
+
+/node_modules
+.env
+.env.local
+.gitignore
+next.config.mjs
+eslint.config.mjs
+jsconfig.json
+README.md
+

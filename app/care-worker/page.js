@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { Box, Button, TextArea, Heading, Text } from 'grommet';
-import { useAuth0 } from '@auth0/auth0-react'; // Use the correct import
+import { useAuth0 } from '@auth0/auth0-react'; 
 
 export default function CareWorkerPage() {
-  const { user, isLoading } = useAuth0(); // Use the correct hook
+  const { user, isLoading } = useAuth0(); 
   const [note, setNote] = useState('');
   const [activeShift, setActiveShift] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -59,72 +59,6 @@ export default function CareWorkerPage() {
     });
   };
 
-  const handleSendNotification = async () => {
-    if (Notification.permission !== 'granted') {
-      await Notification.requestPermission();
-    }
-    
-    if (Notification.permission === 'granted' && navigator.serviceWorker.controller) {
-      // Send a message to the service worker
-      navigator.serviceWorker.controller.postMessage({
-        type: 'SHOW_NOTIFICATION',
-        payload: {
-          title: 'Shift Reminder',
-          options: {
-            body: 'This is a test notification from the service worker!',
-          },
-        },
-      });
-    } else {
-      console.error("Notification permission not granted or service worker not active.");
-    }
-  };
-  const [wasInsidePerimeter, setWasInsidePerimeter] = useState(null);
-
-useEffect(() => {
-  const checkLocation = async () => {
-    if (!('geolocation' in navigator)) return;
-
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      const { latitude, longitude } = pos.coords;
-
-      const res = await fetch('/api/perimeter-check', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lat: latitude, lng: longitude }),
-      });
-
-      const { allowed } = await res.json();
-
-      if (wasInsidePerimeter !== null && allowed !== wasInsidePerimeter) {
-        // perimeter status changed
-        if (Notification.permission !== 'granted') {
-          await Notification.requestPermission();
-        }
-
-        if (Notification.permission === 'granted' && navigator.serviceWorker.controller) {
-          navigator.serviceWorker.controller.postMessage({
-            type: 'SHOW_NOTIFICATION',
-            payload: {
-              title: allowed ? 'You’ve entered the clock-in area' : 'You’ve left the clock-in area',
-              options: {
-                body: allowed ? 'Tap to clock in now!' : 'Looks like you left the perimeter.',
-                icon: '/next.png',
-              },
-            },
-          });
-        }
-      }
-
-      setWasInsidePerimeter(allowed); // update last status
-    });
-  };
-
-  const interval = setInterval(checkLocation, 10000);
-  return () => clearInterval(interval);
-}, [wasInsidePerimeter]);
-
-
   if (isLoading) return <Box pad="large"><Text>Loading user...</Text></Box>;
 
   return (
@@ -146,12 +80,6 @@ useEffect(() => {
           primary={!activeShift}
           color={activeShift ? 'status-critical' : undefined}
           disabled={isSubmitting || isLoading}
-        />
-      </Box>
-       <Box align="start" margin={{ top: 'large' }}>
-        <Button
-          label="Test Notification"
-          onClick={handleSendNotification}
         />
       </Box>
       {message && <Text margin={{ top: 'small' }}>{message}</Text>}

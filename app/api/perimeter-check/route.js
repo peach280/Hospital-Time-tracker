@@ -21,12 +21,9 @@ export async function POST(request) {
   if (!lat || !lng) {
     return NextResponse.json({ success: false, message: 'Missing location data' }, { status: 400 });
   }
-
-  // Find the perimeter set by the manager
   const perimeter = await prisma.locationPerimeter.findFirst();
   console.log(perimeter)
 
-  // If no perimeter is set, deny clock-in
   if (!perimeter) {
     return NextResponse.json({ success: false, allowed: false, message: 'No perimeter has been set by a manager.' });
   }

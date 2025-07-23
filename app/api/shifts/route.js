@@ -15,25 +15,11 @@ export async function GET() {
   const now = new Date();
   const oneWeekAgo = new Date(now);
   oneWeekAgo.setDate(now.getDate() - 7);
-
-  // Fetch all shifts from the last week, including the user data
-  // const shifts = await prisma.shift.findMany({
-  //   include: { user: true },
-  //   where: {
-  //     clockInTime: {
-  //       gte: oneWeekAgo,
-  //     },
-  //   },
-  //   orderBy: {
-  //     clockInTime: 'desc',
-  //   },
-  // });
   const shifts = allShifts.filter(shift => new Date(shift.clockInTime) >= oneWeekAgo);
   console.log(`API: Filtering down to ${shifts.length} shifts from the last week.`);
 
-  // --- Calculate Analytics Data ---
-  const totals = {}; // Total hours per staff
-  const perDayCounts = {}; // Clock-ins per day
+  const totals = {}; 
+  const perDayCounts = {}; 
   let totalTime = 0;
   let totalShifts = 0;
   const perDayUniqueUsers = {};
@@ -64,8 +50,8 @@ export async function GET() {
   const avgHours = totalShifts ? (totalTime / totalShifts) : 0;
   const currentlyClockedIn = shifts.filter(shift => !shift.clockOutTime);
   return NextResponse.json({
-    shifts, // For the main history table
-    currentlyClockedIn, // For the "currently clocked in" table
+    shifts,
+    currentlyClockedIn, 
     analytics: {
         totals,
         perDayCounts,

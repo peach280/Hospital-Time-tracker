@@ -8,8 +8,6 @@ import { useEffect } from 'react';
 export default function Home() {
   const { user, isLoading, loginWithRedirect, logout } = useAuth0();
 
-
-  // This useEffect will run once to sync the user to your database
   useEffect(() => {
     if (user) {
       fetch('/api/auth/sync-user', {
@@ -27,8 +25,6 @@ export default function Home() {
   }
 
   if (user) {
-    // Read the role from the user object.
-    // Auth0 Actions adds it as a namespaced claim.
     const userRole = user['http://localhost:3000/role'];
     console.log(userRole)
 
@@ -40,11 +36,11 @@ export default function Home() {
           <Link href="/manager"><Button label="Go to Manager Page" /></Link>
         )}
 
-        {/* If the user is a CARE_WORKER, show the care worker link */}
+       
         {userRole === 'CARE_WORKER' && (
           <Link href="/care-worker"><Button label="Go to Care Worker Page" /></Link>
         )}
-        {/* --- END LOGIC --- */}
+       
 
         <Button
           label="Logout"

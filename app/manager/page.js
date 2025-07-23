@@ -35,12 +35,11 @@ export default function ManagerPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // State for the perimeter form
   const [address, setAddress] = useState('Indore, Madhya Pradesh');
   const [radiusKm, setRadiusKm] = useState(2);
   const [perimeterMessage, setPerimeterMessage] = useState('');
 
-  // Fetch all dashboard data on page load
+  
   useEffect(() => {
     async function fetchData() {
       try {
@@ -58,7 +57,6 @@ export default function ManagerPage() {
     fetchData();
   }, []);
 
-  // Handler for the "Set Perimeter" button
   const handleSetPerimeter = async () => {
     if (!user) {
       setPerimeterMessage('You must be logged in.');
@@ -66,7 +64,6 @@ export default function ManagerPage() {
     }
     setPerimeterMessage('Saving...');
     try {
-      // 1. Convert address to coordinates
       const geoRes = await fetch('/api/geocode', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -77,7 +74,6 @@ export default function ManagerPage() {
       
       setPerimeterMessage('Saving perimeter...');
       
-      // 2. Save the perimeter with the new coordinates
       const perimRes = await fetch('/api/perimeter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -135,7 +131,7 @@ export default function ManagerPage() {
           </Table>
       </Box>
 
-      {/* Set Perimeter Section */}
+      {/*Perimeter Section */}
       <Box gap="small">
         <Heading level="3">Set Clock-In Perimeter</Heading>
         <Box direction="row" gap="medium" align="center">

@@ -1,5 +1,4 @@
 import Auth0ProviderWrapper from './Auth0Provider';
-import ServiceWorkerRegister from './ServiceWorkerRegister';
 
 export default function RootLayout({ children }) {
   return (
@@ -9,7 +8,6 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <Auth0ProviderWrapper>
-          <ServiceWorkerRegister /> 
           {children}
         </Auth0ProviderWrapper>
       </body>

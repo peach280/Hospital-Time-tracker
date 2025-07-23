@@ -15,7 +15,6 @@ export async function POST(request) {
     const data = await response.json();
 
     if (data.results && data.results.length > 0) {
-      // Return the first, most relevant formatted address
       const address = data.results[0].formatted;
       return NextResponse.json({ address });
     } else {
