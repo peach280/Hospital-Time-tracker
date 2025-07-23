@@ -24,7 +24,7 @@ This is a **Progressive Web App (PWA)** built with **Next.js**, **Prisma**, and 
 
 ## 📁 Folder Structure
 
-/app
+bash```/app
   /api
     /auth/sync-user
       └─ route.js              # Sync user data post-authentication
@@ -71,5 +71,5 @@ This is a **Progressive Web App (PWA)** built with **Next.js**, **Prisma**, and 
 next.config.mjs
 eslint.config.mjs
 jsconfig.json
-README.md
+README.md```
 
