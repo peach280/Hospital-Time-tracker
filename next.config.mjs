@@ -10,7 +10,8 @@ const withPWA = withPWAInit({
 });
 
 const nextConfig = {
-  // Your Next.js config options here
 };
 
+
 export default withPWA(nextConfig);
+
