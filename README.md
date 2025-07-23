@@ -58,7 +58,7 @@ This is a **Progressive Web App (PWA)** built with **Next.js**, **Prisma**, and 
 
 /prisma
   ├─ schema.prisma             # Prisma data models
-  └─ dev.db                    # SQLite database (local only)
+  └─ dev.db                 
 
 /public
   └─ (static assets)
